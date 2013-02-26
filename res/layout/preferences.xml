@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory 
+		android:title="Notice AnyTime Setting"
+		android:key="settings">
+		
+		<CheckBoxPreference 
+			android:key="SETTINGS_NOTICE_ENABLED"
+			android:summary="Notice Enable"
+			android:title="Enable" 
+			android:defaultValue="true"
+			/>
+		
+		<RingtonePreference
+		    android:key="SETTINGS_RINGTONE"
+		    android:title="Ringtone"
+		    android:summary="Chose Ringtone"
+			/>
+			
+	</PreferenceCategory>
+</PreferenceScreen>

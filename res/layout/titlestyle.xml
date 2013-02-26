@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<style name="CustomTitleTheme" parent="@android:style/Theme.Black">
+	    <item name="android:windowTitleSize">30dp</item>
+	</style>
+</resources>
