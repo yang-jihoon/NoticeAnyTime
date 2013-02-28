@@ -2,4 +2,16 @@
 <resources>
     <string name="app_name">Notice AnyTime</string>
     <string name="btn_addrule">ADD</string>
+    <string name="btn_stop">STOP</string>
+    <string name="setting_title">Notice AnyTime Setting</string>
+    <string name="setting_notice_enable">Enable All</string>
+    <string name="setting_toast_enable">Toast Enable</string>
+    <string name="setting_ringtone">Ringtone</string>
+    <string name="rule_setting_title">Rule Setting</string>
+    <string name="rule_setting_enable">Enable</string>
+    <string name="rule_setting_type">Action Type</string>
+    <string name="rule_setting_type_alarm">Alarm</string>
+    <string name="rule_setting_type_call">Call</string>
+    <string name="rule_setting_filter">SMS Matching Text</string>
+    <string name="rule_setting_action">Phone Number</string>
 </resources>
