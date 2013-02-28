@@ -36,7 +36,6 @@ public class NoticeAnyTimeService extends Service {
     	IntentFilter filter = new IntentFilter();
     	filter.addAction("android.provider.Telephony.SMS_RECEIVED");
     	registerReceiver(smsReceiver, filter);  
-    	mediaPlayer = new MediaPlayer(); 
     	audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
     }    
     
@@ -49,7 +48,7 @@ public class NoticeAnyTimeService extends Service {
     public void onDestroy() {
         Log.d(logTag, "onDestroy()...");
         unregisterReceiver(smsReceiver);
-        mediaPlayer.release();
+        mediaPlayer.release();	
     }
 
     
@@ -60,30 +59,32 @@ public class NoticeAnyTimeService extends Service {
 	
 	public void playAlarm() {
         Log.d(logTag, "playAlarm()...");	
-        if (!mediaPlayer.isPlaying()) {
-        	SharedPreferences prefsRule = getSharedPreferences("RULE", Context.MODE_PRIVATE); 
-        	String mediaPath = prefsRule.getString("SETTINGS_RINGTONE","");
-            try {
-            	mediaPlayer.setDataSource(this, Uri.parse(mediaPath));
-
-            	audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-            	audioManager.setStreamVolume(STREAM_TYPE, audioManager.getStreamMaxVolume(STREAM_TYPE), AudioManager.FLAG_PLAY_SOUND);
-            	
-            	mediaPlayer.setAudioStreamType(STREAM_TYPE);
-            	mediaPlayer.prepare();
-            	mediaPlayer.setLooping(true); 
-            	mediaPlayer.start();
-    		} catch (Exception e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}        	
-        }
+        
+    	SharedPreferences prefsRule = getSharedPreferences("RULE", Context.MODE_PRIVATE); 
+    	String mediaPath = prefsRule.getString("SETTINGS_RINGTONE","");
+        try {
+        	mediaPlayer = new MediaPlayer(); 
+        	mediaPlayer.setDataSource(this, Uri.parse(mediaPath));
+        	
+        	mediaPlayer.setAudioStreamType(STREAM_TYPE);
+        	mediaPlayer.prepare();
+        	mediaPlayer.setLooping(true); 
+        	mediaPlayer.start();
+        	
+        	audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+        	audioManager.setStreamVolume(STREAM_TYPE, audioManager.getStreamMaxVolume(STREAM_TYPE), AudioManager.FLAG_PLAY_SOUND);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void stopAlarm() {
         Log.d(logTag, "stopAlarm()...");
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();	
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();	
+            }	
         }
 	}
 	

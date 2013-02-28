@@ -4,11 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class DatabaseAdapter {
 	private static final String DATABASE_NAME = "noticeanytime.db";
 	public static final String DATABASE_TABLE = "noticeanytime";
 	private static final int DATABASE_VERSION = 1;
+
+	static final String logTag = "DatabaseAdapter";
 	
 	public static final String KEY_ID="_id";
 	public static final String ENABLE = "enable";
@@ -38,8 +41,9 @@ public class DatabaseAdapter {
 	public int insert(RuleDomain ruleDomain) {
 		ContentValues values = new ContentValues();
 		values.put(ENABLE, ruleDomain.getEnable());		
-				
-		return (int) db.insert(DATABASE_TABLE, ENABLE, values);
+
+		Log.d(logTag, "insert : "+values);
+		return (int) db.insert(DATABASE_TABLE, KEY_ID, values);
 	}
 	
 	public void update(RuleDomain ruleDomain) {

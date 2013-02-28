@@ -18,7 +18,7 @@
 			android:title="@string/rule_setting_type"
 			android:entries="@array/ruleType"
     		android:entryValues="@array/ruleType"
-			android:dependency="RULE_ENABLED"
+			android:dependency="RULE_ENABLED" 
 			/>	
 			
 		<EditTextPreference

@@ -1,6 +1,5 @@
 package com.psalm0105.noticeAnyTime;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -15,34 +14,44 @@ import android.preference.PreferenceActivity;
 public class RuleSettingActivity extends PreferenceActivity {
 
 	private DatabaseAdapter databaseAdapter;
+	static final String logTag = "RuleSettingActivity";
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);	
-        
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("id");   
 
         databaseAdapter = new DatabaseAdapter(this).open();
+
+        Resources res = getResources();
+        Intent intent = getIntent();        
+        String id = intent.getStringExtra("id");
         
-        getPreferenceManager().setSharedPreferencesName("RULE_"+id); 
+        if ("0".equals(id)) {		            
+			//Insert new
+        	RuleDomain ruleDomain = new RuleDomain();
+			ruleDomain.setEnable("true");
+        	id = String.valueOf(databaseAdapter.insert(ruleDomain)); 
+            intent.putExtra("id", id);            
+        }
+        getPreferenceManager().setSharedPreferencesName("RULE_"+id);
+
         addPreferencesFromResource(R.layout.rulepreferences);
+         
         
         CheckBoxPreference enable = (CheckBoxPreference) findPreference("RULE_ENABLED");
         enable.setOnPreferenceClickListener(new PreferenceClickListener(id));
                 
         ListPreference ruleType = (ListPreference) findPreference("RULE_TYPE");
         ruleType.setSummary(ruleType.getEntry());
-        ruleType.setOnPreferenceChangeListener(new PreferenceChangeListener(this));
+        ruleType.setOnPreferenceChangeListener(new PreferenceChangeListener());
         
         EditTextPreference ruleFilter = (EditTextPreference) findPreference("RULE_FILTER");
         ruleFilter.setSummary(ruleFilter.getText());
-        ruleFilter.setOnPreferenceChangeListener(new PreferenceChangeListener(this));
+        ruleFilter.setOnPreferenceChangeListener(new PreferenceChangeListener());
         
         EditTextPreference ruleAction = (EditTextPreference) findPreference("RULE_ACTION");
         ruleAction.setSummary(ruleAction.getText());
-        ruleAction.setOnPreferenceChangeListener(new PreferenceChangeListener(this));
-        Resources res = getResources();
+        ruleAction.setOnPreferenceChangeListener(new PreferenceChangeListener());
         if (ruleType.getValue() != null) {
             if (ruleType.getValue().equals(res.getString(R.string.rule_setting_type_alarm))) {
             	ruleAction.setEnabled(false);
@@ -56,10 +65,10 @@ public class RuleSettingActivity extends PreferenceActivity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-
+		
 		databaseAdapter.close();
 	}
-	
+
 	public class PreferenceClickListener implements OnPreferenceClickListener {
 		
 		private String id = "0";
@@ -76,8 +85,7 @@ public class RuleSettingActivity extends PreferenceActivity {
 			if (enable.isChecked()) {
 				ruleDomain.setEnable("true");
 			} else {
-				ruleDomain.setEnable("false");
-				
+				ruleDomain.setEnable("false");				
 			}
 			
 			databaseAdapter.update(ruleDomain);
@@ -87,11 +95,6 @@ public class RuleSettingActivity extends PreferenceActivity {
 	}
     
     public class PreferenceChangeListener implements OnPreferenceChangeListener {
-
-    	private Context context;
-    	public PreferenceChangeListener(Context context) {
-    		this.context = context;
-    	}
     	
 		@Override
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -111,29 +114,7 @@ public class RuleSettingActivity extends PreferenceActivity {
 			} else {
 				preference.setSummary((CharSequence) newValue);				
 			}
-			
-	        Intent intent = getIntent();
-	        String id = intent.getStringExtra("id");   
-	        CheckBoxPreference enablePrefs = (CheckBoxPreference) findPreference("RULE_ENABLED");
-	        ListPreference ruleTypePrefs = (ListPreference) findPreference("RULE_TYPE");
-	        EditTextPreference ruleFilterPrefs = (EditTextPreference) findPreference("RULE_FILTER");
-	        if ("0".equals(id) 
-	        		&& ruleTypePrefs.getValue() != null 
-	        		&& ruleFilterPrefs.getText() != null) {		            
-				//Insert new
-	        	RuleDomain ruleDomain = new RuleDomain();
-	        	if (enablePrefs.isChecked()) {
-					ruleDomain.setEnable("true");
-				} else {
-					ruleDomain.setEnable("false");
-					
-				}
-
-		        databaseAdapter = new DatabaseAdapter(context).open();
-	        	id = String.valueOf(databaseAdapter.insert(ruleDomain)); 
-	            intent.putExtra("id", id);
-	        }
-			
+						
 			return true;
 		}
 

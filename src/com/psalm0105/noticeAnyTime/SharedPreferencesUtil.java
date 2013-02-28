@@ -22,6 +22,8 @@ public class SharedPreferencesUtil {
 	    	message = "["+filter + "] " + ruleType;
     	} else if (ruleType.equals(res.getString(R.string.rule_setting_type_call))) { 
 	    	message = "["+filter + "] " + ruleType +" : "+ action;
+    	} else if (!"".equals(filter)) {
+    		message = "["+filter + "]";
     	}
 		return message;
 	}

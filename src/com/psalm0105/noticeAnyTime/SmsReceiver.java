@@ -61,7 +61,7 @@ public class SmsReceiver extends BroadcastReceiver {
 		    }	
 			
         	SharedPreferences prefsRule = context.getSharedPreferences("RULE", Context.MODE_PRIVATE);  
-        	if (prefsRule.getBoolean("SETTINGS_NOTICE_ENABLED", false)) {
+        	if (prefsRule.getBoolean("SETTINGS_NOTICE_ENABLED", true)) {
     		    DatabaseAdapter databaseAdapter = new DatabaseAdapter(context).open();
     		    Cursor mCursor = databaseAdapter.getEnable();
     		    mCursor.moveToFirst();
@@ -73,7 +73,7 @@ public class SmsReceiver extends BroadcastReceiver {
     		    	String filter = spUtilByID.getStringByKey("RULE_FILTER", "");
     		    	String action = spUtilByID.getStringByKey("RULE_ACTION", "");
 
-    		    	Log.d(logTag, "messageBody indexOf : "+messageBody.toString().indexOf(filter));
+    		    	Log.d(logTag, filter + " - messageBody indexOf : "+messageBody.toString().indexOf(filter));
     		    	if (!"".equals(ruleType) && !"".equals(filter) 
     		    			&& messageBody.toString().indexOf(filter) >= 0) {
     		    		// SmsMatchOk!
@@ -127,7 +127,7 @@ public class SmsReceiver extends BroadcastReceiver {
     		    mCursor.close();
     			databaseAdapter.close();		
     			
-            	if (prefsRule.getBoolean("SETTINGS_TOAST_ENABLED", false)) {
+            	if (prefsRule.getBoolean("SETTINGS_TOAST_ENABLED", true)) {
         	        Toast.makeText(context, messageBody.toString()+originatingAddress, Toast.LENGTH_LONG).show();        		
             	}	
         	}
