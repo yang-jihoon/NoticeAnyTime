@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
@@ -66,25 +67,34 @@ public class SmsReceiver extends BroadcastReceiver {
     		    mCursor.moveToFirst();
     		    do {
     		    	int keyId = mCursor.getInt(mCursor.getColumnIndex(DatabaseAdapter.KEY_ID));
-    		    	SharedPreferences prefsByKey = context.getSharedPreferences("RULE_"+keyId, Context.MODE_PRIVATE); 
-    		    	String ruleType = prefsByKey.getString("RULE_TYPE", "");
-    		    	String filter = prefsByKey.getString("RULE_FILTER", "");
-    		    	String action = prefsByKey.getString("RULE_ACTION", "");
-    		    	Log.d(logTag, "keyId : "+keyId + ",ruleType : "+ruleType + ",filter : "+filter + ",action : "+action);
+
+    		    	SharedPreferencesUtil spUtilByID = new SharedPreferencesUtil(context,"RULE_"+keyId);    
+    		    	String ruleType = spUtilByID.getStringByKey("RULE_TYPE", "");
+    		    	String filter = spUtilByID.getStringByKey("RULE_FILTER", "");
+    		    	String action = spUtilByID.getStringByKey("RULE_ACTION", "");
+
     		    	Log.d(logTag, "messageBody indexOf : "+messageBody.toString().indexOf(filter));
     		    	if (!"".equals(ruleType) && !"".equals(filter) 
     		    			&& messageBody.toString().indexOf(filter) >= 0) {
     		    		// SmsMatchOk!
     		            Resources res = context.getResources();
-    		            String notifyMessage = "";
     			    	if (ruleType.equals(res.getString(R.string.rule_setting_type_alarm))) {
-    				    	Log.d(logTag, "match Ok - alarm");
     			        	// play alarm
-    				    	notifyMessage = filter + " > " + ruleType;
+    				    	Log.d(logTag, "match Ok - alarm");
+    				    	
+    				    	Intent serviceIntent = new Intent(NoticeAnyTimeService.SERVICE_NAME);  
+    				    	serviceIntent.putExtra("StartAlarm", true);
+    				    	context.startService(serviceIntent);			    	    				    	
     			    	} else if (ruleType.equals(res.getString(R.string.rule_setting_type_call))) { 
-    				    	Log.d(logTag, "match Ok - call");
     			    		// call
-    				    	notifyMessage = filter + " > " + ruleType +" > "+ action;
+    				    	Log.d(logTag, "match Ok - call");
+    				    	if ("".equals(action)) {
+    				    		action = originatingAddress; 				    		
+    				    	}
+    				    	Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ action));   
+				    		callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    				    	context.startActivity(callIntent);	
+
     			    	}
     			    	
 			    		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -104,7 +114,7 @@ public class SmsReceiver extends BroadcastReceiver {
 			            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 			            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intentForNotify, PendingIntent.FLAG_UPDATE_CURRENT);
-			            notification.setLatestEventInfo(context, "Notice AnyTime", notifyMessage, contentIntent);
+			            notification.setLatestEventInfo(context, "Notice AnyTime", spUtilByID.getMessageById(), contentIntent);
 			            
 			            notificationManager.cancel("NAT", 1);
 			            notificationManager.notify("NAT", 1, notification);
@@ -123,4 +133,6 @@ public class SmsReceiver extends BroadcastReceiver {
         	}
 	    }
     }
+    
+    
 }

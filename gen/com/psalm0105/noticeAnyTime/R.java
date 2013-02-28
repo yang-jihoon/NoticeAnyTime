@@ -17,12 +17,13 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int list=0x7f070002;
-        public static final int title=0x7f070000;
-        public static final int title_addrule=0x7f070005;
-        public static final int title_appname=0x7f070004;
-        public static final int title_stop=0x7f070003;
-        public static final int type=0x7f070001;
+        public static final int list=0x7f070003;
+        public static final int list_enable=0x7f070000;
+        public static final int list_message=0x7f070002;
+        public static final int list_title=0x7f070001;
+        public static final int title_addrule=0x7f070006;
+        public static final int title_appname=0x7f070005;
+        public static final int title_stop=0x7f070004;
     }
     public static final class layout {
         public static final int listdetail=0x7f030000;

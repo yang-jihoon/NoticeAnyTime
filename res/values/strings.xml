@@ -13,5 +13,5 @@
     <string name="rule_setting_type_alarm">Alarm</string>
     <string name="rule_setting_type_call">Call</string>
     <string name="rule_setting_filter">SMS Matching Text</string>
-    <string name="rule_setting_action">Phone Number</string>
+    <string name="rule_setting_action">Action - Phone Number</string>
 </resources>

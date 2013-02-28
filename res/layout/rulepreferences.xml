@@ -8,8 +8,8 @@
 		
 		<CheckBoxPreference 
 			android:key="RULE_ENABLED"
-			android:summary="Notice Enable"
 			android:title="@string/rule_setting_enable" 
+			android:summary="Notice Enable"
 			android:defaultValue="true"
 			/>
 		
@@ -24,15 +24,15 @@
 		<EditTextPreference
 			android:key="RULE_FILTER"
 			android:title="@string/rule_setting_filter" 
-			android:dialogTitle="SMS Matching Text"
+			android:dialogTitle="@string/rule_setting_filter"
 			android:dependency="RULE_ENABLED"
 		/>
 		
 		<EditTextPreference
 			android:key="RULE_ACTION"
 			android:title="@string/rule_setting_action"
+			android:dialogTitle="@string/rule_setting_action"
 			android:inputType="number"
-			android:dialogTitle="Action"
 			android:dependency="RULE_ENABLED"
 		/>
 			

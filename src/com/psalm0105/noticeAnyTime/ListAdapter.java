@@ -1,10 +1,8 @@
 package com.psalm0105.noticeAnyTime;
 
-import com.psalm0105.noticeAnyTime.R;
-
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +21,21 @@ public class ListAdapter extends CursorAdapter {
 		int id = cursor.getInt((cursor.getColumnIndex(DatabaseAdapter.KEY_ID)));
 		view.setId(id);
 		
-		SharedPreferences prefs = context.getSharedPreferences("RULE_"+id, Context.MODE_PRIVATE);
+		SharedPreferencesUtil spUtil = new SharedPreferencesUtil(context, "RULE_"+id);
 		
-		TextView titleView = (TextView) view.findViewById(R.id.title);
-		titleView.setText(prefs.getString("RULE_FILTER", "")+" "+id);
+		TextView enableView = (TextView) view.findViewById(R.id.list_enable);
+		enableView.setText(spUtil.getListEnableById());
+		if (spUtil.getBooleanByKey("RULE_ENABLED", false)) {
+			enableView.setTextColor(Color.GREEN);			
+		} else {
+			enableView.setTextColor(Color.RED);		
+		}
+		
+		TextView titleView = (TextView) view.findViewById(R.id.list_title);
+		titleView.setText(spUtil.getStringByKey("RULE_FILTER", ""));
 
-		TextView messageView = (TextView) view.findViewById(R.id.type);
-		messageView.setText(cursor.getString((cursor.getColumnIndex(DatabaseAdapter.ENABLE)))
-				+" "+prefs.getString("RULE_TYPE", "")
-				+" "+prefs.getString("RULE_ACTION", ""));	
+		TextView messageView = (TextView) view.findViewById(R.id.list_message);
+		messageView.setText(spUtil.getListMessageById());	
 	}
 
 	@Override
