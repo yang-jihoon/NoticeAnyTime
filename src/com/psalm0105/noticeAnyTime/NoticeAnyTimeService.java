@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
@@ -61,24 +60,24 @@ public class NoticeAnyTimeService extends Service {
 	
 	public void playAlarm() {
         Log.d(logTag, "playAlarm()...");	
-        
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-    	SharedPreferences prefsRule = getSharedPreferences("RULE", Context.MODE_PRIVATE); 
-    	String mediaPath = prefsRule.getString("SETTINGS_RINGTONE",alarmUri.getPath());
-        try {
-        	mediaPlayer.setDataSource(this, Uri.parse(mediaPath));
+        if (!mediaPlayer.isPlaying()) {
+        	SharedPreferences prefsRule = getSharedPreferences("RULE", Context.MODE_PRIVATE); 
+        	String mediaPath = prefsRule.getString("SETTINGS_RINGTONE","");
+            try {
+            	mediaPlayer.setDataSource(this, Uri.parse(mediaPath));
 
-        	audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-        	audioManager.setStreamVolume(STREAM_TYPE, audioManager.getStreamMaxVolume(STREAM_TYPE), AudioManager.FLAG_PLAY_SOUND);
-        	
-        	mediaPlayer.setAudioStreamType(STREAM_TYPE);
-        	mediaPlayer.prepare();
-        	mediaPlayer.setLooping(true); 
-        	mediaPlayer.start();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            	audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+            	audioManager.setStreamVolume(STREAM_TYPE, audioManager.getStreamMaxVolume(STREAM_TYPE), AudioManager.FLAG_PLAY_SOUND);
+            	
+            	mediaPlayer.setAudioStreamType(STREAM_TYPE);
+            	mediaPlayer.prepare();
+            	mediaPlayer.setLooping(true); 
+            	mediaPlayer.start();
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}        	
+        }
 	}
 	
 	public void stopAlarm() {

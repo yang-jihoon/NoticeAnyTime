@@ -26,6 +26,7 @@
 		    android:title="@string/setting_ringtone"
 		    android:summary="Chose Ringtone"
 			android:dependency="SETTINGS_NOTICE_ENABLED"
+			android:showSilent="false"
 			/>
 			
 	</PreferenceCategory>

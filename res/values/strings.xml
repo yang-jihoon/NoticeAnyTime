@@ -5,7 +5,7 @@
     <string name="btn_stop">STOP</string>
     <string name="setting_title">Notice AnyTime Setting</string>
     <string name="setting_notice_enable">Enable All</string>
-    <string name="setting_toast_enable">Toast Enable</string>
+    <string name="setting_toast_enable">SMS Toast Enable</string>
     <string name="setting_ringtone">Ringtone</string>
     <string name="rule_setting_title">Rule Setting</string>
     <string name="rule_setting_enable">Enable</string>
