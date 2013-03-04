@@ -77,7 +77,6 @@ public class RuleSettingActivity extends PreferenceActivity {
 			this.id = id;
 		}
 
-		@Override
 		public boolean onPreferenceClick(Preference preference) {
 			CheckBoxPreference enable = (CheckBoxPreference)preference;
 			RuleDomain ruleDomain = new RuleDomain();
@@ -96,7 +95,6 @@ public class RuleSettingActivity extends PreferenceActivity {
     
     public class PreferenceChangeListener implements OnPreferenceChangeListener {
     	
-		@Override
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
 			if ("RULE_TYPE".equals(preference.getKey())) {
 				String ruleType = (String) newValue;

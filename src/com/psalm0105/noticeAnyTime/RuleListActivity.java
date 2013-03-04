@@ -86,7 +86,7 @@ public class RuleListActivity extends Activity {
 
     	SharedPreferencesUtil spUtil = new SharedPreferencesUtil(context, "RULE_"+id);    	
     	menu.setHeaderTitle(spUtil.getMessageById());
-		menu.add(0, Menu.FIRST, Menu.NONE, "»èÁ¦");
+		menu.add(0, Menu.FIRST, Menu.NONE, "ï¿½ï¿½ï¿½ï¿½");
 	 }
 	 
 	 @Override
@@ -108,7 +108,6 @@ public class RuleListActivity extends Activity {
 	
 	public class BtnClickListener implements OnClickListener {
 
-		@Override
 		public void onClick(View view) {
 			if (view.getId() == R.id.title_addrule) {				 
 	        	//SharedPreferences remove   	
@@ -161,13 +160,11 @@ public class RuleListActivity extends Activity {
     }
     
 	public ServiceConnection mConnection = new ServiceConnection() {
-		@Override
-	    public void onServiceDisconnected(ComponentName name) {
+		public void onServiceDisconnected(ComponentName name) {
 	        mBounded = false;
 	        noticeAnyTimeService = null;
 	    }
-		@Override
-	    public void onServiceConnected(ComponentName name, IBinder service) {
+		public void onServiceConnected(ComponentName name, IBinder service) {
 	        mBounded = true;
 	        LocalBinder mLocalBinder = (LocalBinder)service;
 	        noticeAnyTimeService = mLocalBinder.getServerInstance();
