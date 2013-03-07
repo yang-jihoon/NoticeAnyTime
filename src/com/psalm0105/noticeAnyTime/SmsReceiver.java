@@ -21,19 +21,19 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 	    if (intent.getAction().equals(ACTION)) {
-	        //Bundel ³Î Ã¼Å©
+	        //Bundel
 		    Bundle bundle = intent.getExtras();
 		    if (bundle == null) {
 		    	return;
 		    }
 		
-		    //pdu °´Ã¼ ³Î Ã¼Å©
+		    //pdu
 		    Object[] pdusObj = (Object[]) bundle.get("pdus");
 		    if (pdusObj == null) {
 		    	return;
 		    }
 		
-		    //message Ã³¸®
+		    //message
 		    SmsMessage[] smsMessages = new SmsMessage[pdusObj.length];
 		    StringBuilder messageBody = new StringBuilder();
 		    String originatingAddress = "";
@@ -50,7 +50,7 @@ public class SmsReceiver extends BroadcastReceiver {
 				                 + smsMessages[i].getEmailFrom());
 				Log.d(logTag, "OriginatingAddress : "
 				                 + smsMessages[i].getOriginatingAddress());
-				originatingAddress = " ¢Ï"+smsMessages[i].getOriginatingAddress()+"";
+				originatingAddress = " â˜Ž"+smsMessages[i].getOriginatingAddress()+"";
 				Log.d(logTag, "MessageBody : "
 				                 + smsMessages[i].getMessageBody());
 				messageBody.append(smsMessages[i].getMessageBody());
