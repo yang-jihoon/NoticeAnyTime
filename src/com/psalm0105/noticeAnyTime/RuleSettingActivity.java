@@ -42,23 +42,30 @@ public class RuleSettingActivity extends PreferenceActivity {
         enable.setOnPreferenceClickListener(new PreferenceClickListener(id));
                 
         ListPreference ruleType = (ListPreference) findPreference("RULE_TYPE");
-        ruleType.setSummary(ruleType.getEntry());
+        if (ruleType.getEntry() != null) {
+        	ruleType.setSummary(ruleType.getEntry());
+        }
         ruleType.setOnPreferenceChangeListener(new PreferenceChangeListener());
         
         EditTextPreference ruleFilter = (EditTextPreference) findPreference("RULE_FILTER");
-        ruleFilter.setSummary(ruleFilter.getText());
+        if (ruleFilter.getText() != null) {
+        	ruleFilter.setSummary(ruleFilter.getText());
+        }
         ruleFilter.setOnPreferenceChangeListener(new PreferenceChangeListener());
         
         EditTextPreference ruleAction = (EditTextPreference) findPreference("RULE_ACTION");
-        ruleAction.setSummary(ruleAction.getText());
+        if (ruleAction.getText() != null) {
+        	ruleAction.setSummary(ruleAction.getText());
+        }
         ruleAction.setOnPreferenceChangeListener(new PreferenceChangeListener());
         if (ruleType.getValue() != null) {
             if (ruleType.getValue().equals(res.getString(R.string.rule_setting_type_alarm))) {
             	ruleAction.setEnabled(false);
-				ruleAction.setText("");
         	} else if (ruleType.getValue().equals(res.getString(R.string.rule_setting_type_call))) { 
         		ruleAction.setEnabled(true);
         	}	
+        } else {
+        	ruleAction.setEnabled(false);
         }
     }
 	
@@ -101,11 +108,10 @@ public class RuleSettingActivity extends PreferenceActivity {
 				preference.setSummary((CharSequence) ruleType);	
 
 		        EditTextPreference ruleAction = (EditTextPreference) findPreference("RULE_ACTION");
+		        		        
 		        Resources res = getResources();
 		        if (ruleType.equals(res.getString(R.string.rule_setting_type_alarm))) {
 					ruleAction.setEnabled(false);
-					ruleAction.setText("");
-					ruleAction.setSummary("");
 				} else if (ruleType.equals(res.getString(R.string.rule_setting_type_call))) {
 					ruleAction.setEnabled(true);
 				}

@@ -9,29 +9,34 @@
 		<CheckBoxPreference 
 			android:key="RULE_ENABLED"
 			android:title="@string/rule_setting_enable" 
-			android:summary="Notice Enable"
+			android:summary="@string/rule_setting_enable_desc"
 			android:defaultValue="true"
 			/>
 		
-		<ListPreference 
-			android:key="RULE_TYPE"
-			android:title="@string/rule_setting_type"
-			android:entries="@array/ruleType"
-    		android:entryValues="@array/ruleType"
-			android:dependency="RULE_ENABLED" 
-			/>	
-			
 		<EditTextPreference
 			android:key="RULE_FILTER"
 			android:title="@string/rule_setting_filter" 
+			android:summary="@string/rule_setting_filter_desc"
 			android:dialogTitle="@string/rule_setting_filter"
 			android:dependency="RULE_ENABLED"
 		/>
+			
+		<ListPreference 
+			android:key="RULE_TYPE"
+			android:title="@string/rule_setting_type"
+			android:summary="@string/rule_setting_type_desc"
+			android:entries="@array/ruleTypeDesc"
+    		android:entryValues="@array/ruleType"
+			android:dependency="RULE_ENABLED" 
+			/>	
+		
 		
 		<EditTextPreference
 			android:key="RULE_ACTION"
+			android:visibility="gone"
 			android:title="@string/rule_setting_action"
-			android:dialogTitle="@string/rule_setting_action"
+			android:summary="@string/rule_setting_action_desc"
+			android:dialogTitle="@string/rule_setting_action_desc"
 			android:inputType="number"
 			android:dependency="RULE_ENABLED"
 		/>

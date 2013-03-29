@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <string name="app_name">Notice AnyTime</string>
-    <string name="btn_addrule">ADD</string>
-    <string name="btn_stop">STOP</string>
+    
+    <string name="btn_addrule">등록</string>
+    <string name="btn_stop">알람 중지</string>
+    
     <string name="setting_title">Notice AnyTime Setting</string>
     <string name="setting_notice_enable">Enable All</string>
+    <string name="setting_notice_enable_desc">전체기능 사용 설정</string>
     <string name="setting_toast_enable">SMS Toast Enable</string>
+    <string name="setting_toast_enable_desc">문자를 Toast로 보기 </string>
     <string name="setting_ringtone">Ringtone</string>
+    <string name="setting_ringtone_desc">알람 소리 설정</string>
+    
     <string name="rule_setting_title">Rule Setting</string>
     <string name="rule_setting_enable">Enable</string>
+    <string name="rule_setting_enable_desc">기능 사용 설정</string>
     <string name="rule_setting_type">Action Type</string>
+    <string name="rule_setting_type_desc">동작 방법 설정</string>
+    <string name="rule_setting_type_alarm_desc">알람울리기 (Alarm)</string>
     <string name="rule_setting_type_alarm">Alarm</string>
+    <string name="rule_setting_type_call_desc">전화걸기 (Call)</string>
     <string name="rule_setting_type_call">Call</string>
     <string name="rule_setting_filter">SMS Matching Text</string>
-    <string name="rule_setting_action">Action - Phone Number</string>
+    <string name="rule_setting_filter_desc">설정된 단어가 문자메세지 중에 포함되어 있으면 동작</string>
+    <string name="rule_setting_action">Call Action (Phone Number)</string>
+    <string name="rule_setting_action_desc">전화번호설정 - 설정된 번호가 없을경우엔 문자를 보낸사람에게 전화를 겁니다. </string>
+    
+    <string name="rule_list_toast_text">등록된 단어가 없습니다.</string>
+    <string name="rule_list_message_pre">동작방법</string>
 </resources>

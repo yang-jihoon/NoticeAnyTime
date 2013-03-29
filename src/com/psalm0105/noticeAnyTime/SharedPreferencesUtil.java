@@ -50,10 +50,11 @@ public class SharedPreferencesUtil {
     	String action = prefs.getString("RULE_ACTION", "");
     	
         String message = "";
+        String preMessage = context.getResources().getString(R.string.rule_list_message_pre);
         if (!"".equals(action)){
-	    	message = ruleType+" : "+action;
+	    	message = preMessage + " : " + ruleType+" - "+action;
     	} else { 
-	    	message = ruleType+action;
+	    	message = preMessage + " : " + ruleType;
     	}
 		return message;
 	}

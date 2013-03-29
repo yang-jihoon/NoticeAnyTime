@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
@@ -20,6 +22,8 @@ public class NoticeAnyTimeService extends Service {
     private MediaPlayer mediaPlayer;
     private AudioManager audioManager;
     private final int STREAM_TYPE = AudioManager.STREAM_ALARM;
+    
+    private int playCount = 0;
     
     private BroadcastReceiver smsReceiver;
     IBinder mBinder = new LocalBinder();
@@ -60,15 +64,32 @@ public class NoticeAnyTimeService extends Service {
 	public void playAlarm() {
         Log.d(logTag, "playAlarm()...");	
         
-    	SharedPreferences prefsRule = getSharedPreferences("RULE", Context.MODE_PRIVATE); 
-    	String mediaPath = prefsRule.getString("SETTINGS_RINGTONE","");
+    	SharedPreferences prefsRule = getSharedPreferences("RULE", Context.MODE_PRIVATE);
+    	String settingRingtone = prefsRule.getString("SETTINGS_RINGTONE","");
+    	Uri uri;
+    	if ("".equals(settingRingtone)){
+    		uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+    	} else {
+    		uri = Uri.parse(settingRingtone);
+    	}
+
         try {
+        	playCount = 0;
         	mediaPlayer = new MediaPlayer(); 
-        	mediaPlayer.setDataSource(this, Uri.parse(mediaPath));
+        	mediaPlayer.setDataSource(this, uri);
         	
         	mediaPlayer.setAudioStreamType(STREAM_TYPE);
         	mediaPlayer.prepare();
-        	mediaPlayer.setLooping(true); 
+        	mediaPlayer.setLooping(false);
+        	mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+				public void onCompletion(MediaPlayer player) {
+					playCount += 1;
+					Log.d(logTag, "PlayCount : " + playCount);
+					if (playCount <= 3) {
+						player.start();
+					}
+				}
+        	}); 
         	mediaPlayer.start();
         	
         	audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
@@ -101,5 +122,13 @@ public class NoticeAnyTimeService extends Service {
     		playAlarm();
     	}
         return START_STICKY;
+    }
+    
+    public boolean isAlarmPlaying() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.isPlaying();	
+        } else {
+        	return false;
+        }
     }
 }

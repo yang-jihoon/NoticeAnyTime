@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class RuleListActivity extends Activity {
 	
@@ -44,7 +45,11 @@ public class RuleListActivity extends Activity {
         databaseAdapter = new DatabaseAdapter(this).open();
 
         mCursor = databaseAdapter.getAll();
-        startManagingCursor(mCursor);        
+        startManagingCursor(mCursor);  
+        
+        if (mCursor.getCount() == 0) {
+	        Toast.makeText(context, R.string.rule_list_toast_text, Toast.LENGTH_LONG).show();
+        }
 
         Window win = getWindow();
         win.requestFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -60,10 +65,10 @@ public class RuleListActivity extends Activity {
         
         Button addBtn = (Button) findViewById(R.id.title_addrule);
         addBtn.setOnClickListener(new BtnClickListener());
-        
+
         Button stopBtn = (Button) findViewById(R.id.title_stop);
         stopBtn.setOnClickListener(new BtnClickListener());
-
+        
         registerForContextMenu(listview);
 
         Thread serviceThread = new Thread(new Runnable() {
@@ -72,7 +77,13 @@ public class RuleListActivity extends Activity {
                 context.startService(intent);
             }
         });
-        serviceThread.start();     
+        serviceThread.start();
+        
+//        if (noticeAnyTimeService != null && noticeAnyTimeService.isAlarmPlaying()) {
+//        	stopBtn.setVisibility(View.VISIBLE);
+//        } else {
+//        	stopBtn.setVisibility(View.GONE);
+//        }
     }
 	
 	 @Override
@@ -86,7 +97,7 @@ public class RuleListActivity extends Activity {
 
     	SharedPreferencesUtil spUtil = new SharedPreferencesUtil(context, "RULE_"+id);    	
     	menu.setHeaderTitle(spUtil.getMessageById());
-		menu.add(0, Menu.FIRST, Menu.NONE, "����");
+		menu.add(0, Menu.FIRST, Menu.NONE, "Delete");
 	 }
 	 
 	 @Override

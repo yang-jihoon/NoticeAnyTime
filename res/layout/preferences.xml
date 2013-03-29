@@ -8,15 +8,15 @@
 		
 		<CheckBoxPreference 
 			android:key="SETTINGS_NOTICE_ENABLED"
-			android:summary="Notice Enable"
+			android:summary="@string/setting_notice_enable_desc"
 			android:title="@string/setting_notice_enable" 
 			android:defaultValue="true"
 			/>
 		
 		<CheckBoxPreference 
 			android:key="SETTINGS_TOAST_ENABLED"
-			android:summary="@string/setting_toast_enable"
-			android:title="@string/setting_toast_enable" 
+			android:title="@string/setting_toast_enable"
+			android:summary="@string/setting_toast_enable_desc" 
 			android:defaultValue="true"
 			android:dependency="SETTINGS_NOTICE_ENABLED"
 			/>
@@ -24,7 +24,7 @@
 		<RingtonePreference
 		    android:key="SETTINGS_RINGTONE"
 		    android:title="@string/setting_ringtone"
-		    android:summary="Chose Ringtone"
+		    android:summary="@string/setting_ringtone_desc"
 			android:dependency="SETTINGS_NOTICE_ENABLED"
 			android:showSilent="false"
 			/>

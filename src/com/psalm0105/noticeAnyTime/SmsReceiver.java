@@ -64,65 +64,68 @@ public class SmsReceiver extends BroadcastReceiver {
         	if (prefsRule.getBoolean("SETTINGS_NOTICE_ENABLED", true)) {
     		    DatabaseAdapter databaseAdapter = new DatabaseAdapter(context).open();
     		    Cursor mCursor = databaseAdapter.getEnable();
-    		    mCursor.moveToFirst();
-    		    do {
-    		    	int keyId = mCursor.getInt(mCursor.getColumnIndex(DatabaseAdapter.KEY_ID));
-
-    		    	SharedPreferencesUtil spUtilByID = new SharedPreferencesUtil(context,"RULE_"+keyId);    
-    		    	String ruleType = spUtilByID.getStringByKey("RULE_TYPE", "");
-    		    	String filter = spUtilByID.getStringByKey("RULE_FILTER", "");
-    		    	String action = spUtilByID.getStringByKey("RULE_ACTION", "");
-
-    		    	Log.d(logTag, filter + " - messageBody indexOf : "+messageBody.toString().indexOf(filter));
-    		    	if (!"".equals(ruleType) && !"".equals(filter) 
-    		    			&& messageBody.toString().indexOf(filter) >= 0) {
-    		    		// SmsMatchOk!
-    		            Resources res = context.getResources();
-    			    	if (ruleType.equals(res.getString(R.string.rule_setting_type_alarm))) {
-    			        	// play alarm
-    				    	Log.d(logTag, "match Ok - alarm");
-    				    	
-    				    	Intent serviceIntent = new Intent(NoticeAnyTimeService.SERVICE_NAME);  
-    				    	serviceIntent.putExtra("StartAlarm", true);
-    				    	context.startService(serviceIntent);			    	    				    	
-    			    	} else if (ruleType.equals(res.getString(R.string.rule_setting_type_call))) { 
-    			    		// call
-    				    	Log.d(logTag, "match Ok - call");
-    				    	if ("".equals(action)) {
-    				    		action = originatingAddress; 				    		
-    				    	}
-    				    	Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ action));   
-				    		callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    				    	context.startActivity(callIntent);	
-
-    			    	}
-    			    	
-			    		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-			            Notification notification = new Notification();   
-			            notification.icon = R.drawable.ic_launcher;
-			            notification.defaults = Notification.DEFAULT_LIGHTS;
-			            notification.flags |= Notification.FLAG_NO_CLEAR;
-			            notification.flags |= Notification.FLAG_ONGOING_EVENT;
-			            notification.when = System.currentTimeMillis();
-			            notification.tickerText = "Notice AnyTime"; 
-			            
-			            Intent intentForNotify = new Intent(context, RuleListActivity.class);
-			            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-			            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-			            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-			            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intentForNotify, PendingIntent.FLAG_UPDATE_CURRENT);
-			            notification.setLatestEventInfo(context, "Notice AnyTime", spUtilByID.getMessageById(), contentIntent);
-			            
-			            notificationManager.cancel("NAT", 1);
-			            notificationManager.notify("NAT", 1, notification);
-    			    	
-    			    	break;
-    		    	}
-    		    	
-    		    } while (mCursor.moveToNext());
+    		    
+    		    if (mCursor.getCount() > 0) {
+    		    	mCursor.moveToFirst();
+    		    	do {
+	    		    	int keyId = mCursor.getInt(mCursor.getColumnIndex(DatabaseAdapter.KEY_ID));
+	
+	    		    	SharedPreferencesUtil spUtilByID = new SharedPreferencesUtil(context,"RULE_"+keyId);    
+	    		    	String ruleType = spUtilByID.getStringByKey("RULE_TYPE", "");
+	    		    	String filter = spUtilByID.getStringByKey("RULE_FILTER", "");
+	    		    	String action = spUtilByID.getStringByKey("RULE_ACTION", "");
+	
+	    		    	Log.d(logTag, filter + " - messageBody indexOf : "+messageBody.toString().indexOf(filter));
+	    		    	if (!"".equals(ruleType) && !"".equals(filter) 
+	    		    			&& messageBody.toString().indexOf(filter) >= 0) {
+	    		    		// SmsMatchOk!
+	    		            Resources res = context.getResources();
+	    			    	if (ruleType.equals(res.getString(R.string.rule_setting_type_alarm))) {
+	    			        	// play alarm
+	    				    	Log.d(logTag, "match Ok - alarm");
+	    				    	
+	    				    	Intent serviceIntent = new Intent(NoticeAnyTimeService.SERVICE_NAME);  
+	    				    	serviceIntent.putExtra("StartAlarm", true);
+	    				    	context.startService(serviceIntent);			    	    				    	
+	    			    	} else if (ruleType.equals(res.getString(R.string.rule_setting_type_call))) { 
+	    			    		// call
+	    				    	Log.d(logTag, "match Ok - call");
+	    				    	if ("".equals(action)) {
+	    				    		action = originatingAddress; 				    		
+	    				    	}
+	    				    	Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ action));   
+					    		callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    				    	context.startActivity(callIntent);	
+	
+	    			    	}
+	    			    	
+				    		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+				            Notification notification = new Notification();   
+				            notification.icon = R.drawable.ic_launcher;
+				            notification.defaults = Notification.DEFAULT_LIGHTS;
+				            notification.flags |= Notification.FLAG_NO_CLEAR;
+				            notification.flags |= Notification.FLAG_ONGOING_EVENT;
+				            notification.when = System.currentTimeMillis();
+				            notification.tickerText = "Notice AnyTime"; 
+				            
+				            Intent intentForNotify = new Intent(context, RuleListActivity.class);
+				            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+				            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				            intentForNotify.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	
+				            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intentForNotify, PendingIntent.FLAG_UPDATE_CURRENT);
+				            notification.setLatestEventInfo(context, "Notice AnyTime", spUtilByID.getMessageById(), contentIntent);
+				            
+				            notificationManager.cancel("NAT", 1);
+				            notificationManager.notify("NAT", 1, notification);
+	    			    	
+	    			    	break;
+	    		    	}
+	    		    	
+	    		    } while (mCursor.moveToNext());
+    		    }
     		    
     		    mCursor.close();
     			databaseAdapter.close();		
