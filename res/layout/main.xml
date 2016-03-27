@@ -10,8 +10,55 @@
         android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
-        android:layout_above="@+id/title_stop"
+        android:layout_above="@+id/title_snooze1"
      	/>
+    <TextView 
+		android:id="@+id/title_snooze" 
+		android:layout_width="wrap_content"
+		android:layout_height="55dp"
+		android:text="@string/btn_snooze"
+    	android:paddingTop="5dp"
+    	android:layout_marginTop="5dp"	
+        android:layout_above="@+id/title_stop"
+		android:layout_toLeftOf="@+id/title_snooze1"
+		/>
+        
+    
+    <Button
+		android:id="@+id/title_snooze1" 
+		android:layout_width="wrap_content"
+		android:layout_height="55dp"
+		android:text="@string/btn_snooze1"
+    	android:paddingTop="5dp"
+    	android:layout_marginTop="5dp"	
+    	android:layout_marginLeft="10dp"	
+        android:layout_above="@+id/title_stop"
+		android:layout_toLeftOf="@+id/title_snooze2"
+       	/>
+    
+    <Button
+		android:id="@+id/title_snooze2"  
+		android:layout_width="wrap_content"
+		android:layout_height="55dp"
+		android:text="@string/btn_snooze2"
+    	android:paddingTop="5dp"
+    	android:layout_marginTop="5dp"	
+    	android:layout_marginLeft="10dp"	
+        android:layout_above="@+id/title_stop"
+    	android:layout_centerHorizontal="true"
+       	/>
+    
+    <Button
+		android:id="@+id/title_snooze3"  
+		android:layout_width="wrap_content"
+		android:layout_height="55dp"
+		android:text="@string/btn_snooze3"
+    	android:paddingTop="5dp"
+    	android:layout_marginTop="5dp"
+    	android:layout_marginLeft="10dp"	
+        android:layout_above="@+id/title_stop"
+		android:layout_toRightOf="@+id/title_snooze2"
+       	/>
     
     <Button
 		android:id="@+id/title_stop" 

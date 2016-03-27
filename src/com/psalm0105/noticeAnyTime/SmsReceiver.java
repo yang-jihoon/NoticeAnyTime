@@ -1,5 +1,7 @@
 package com.psalm0105.noticeAnyTime;
 
+import java.util.Date;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -59,8 +61,16 @@ public class SmsReceiver extends BroadcastReceiver {
 				Log.d(logTag, "TimestampMillis : "
 		                                     + smsMessages[i].getTimestampMillis());
 		    }	
+		    SharedPreferences snoozePref = context.getSharedPreferences("SNOOZE_TIME", Context.MODE_PRIVATE);
+		    long snoozeTime = snoozePref.getLong("TIME", 0);
+		    
+		    long currentTime = (new Date()).getTime();
+		    
+		    Log.d("SNOOZE", "snoozTime : "+(new Date(snoozeTime)).toString());
+		    Log.d("SNOOZE", "currentTime : "+(new Date(currentTime)).toString());
 			
-        	SharedPreferences prefsRule = context.getSharedPreferences("RULE", Context.MODE_PRIVATE);  
+        	SharedPreferences prefsRule = context.getSharedPreferences("RULE", Context.MODE_PRIVATE); 
+
         	if (prefsRule.getBoolean("SETTINGS_NOTICE_ENABLED", true)) {
     		    DatabaseAdapter databaseAdapter = new DatabaseAdapter(context).open();
     		    Cursor mCursor = databaseAdapter.getEnable();
@@ -78,26 +88,31 @@ public class SmsReceiver extends BroadcastReceiver {
 	    		    	Log.d(logTag, filter + " - messageBody indexOf : "+messageBody.toString().indexOf(filter));
 	    		    	if (!"".equals(ruleType) && !"".equals(filter) 
 	    		    			&& messageBody.toString().indexOf(filter) >= 0) {
+	    		    		
 	    		    		// SmsMatchOk!
-	    		            Resources res = context.getResources();
-	    			    	if (ruleType.equals(res.getString(R.string.rule_setting_type_alarm))) {
-	    			        	// play alarm
-	    				    	Log.d(logTag, "match Ok - alarm");
-	    				    	
-	    				    	Intent serviceIntent = new Intent(NoticeAnyTimeService.SERVICE_NAME);  
-	    				    	serviceIntent.putExtra("StartAlarm", true);
-	    				    	context.startService(serviceIntent);			    	    				    	
-	    			    	} else if (ruleType.equals(res.getString(R.string.rule_setting_type_call))) { 
-	    			    		// call
-	    				    	Log.d(logTag, "match Ok - call");
-	    				    	if ("".equals(action)) {
-	    				    		action = originatingAddress; 				    		
-	    				    	}
-	    				    	Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ action));   
-					    		callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	    				    	context.startActivity(callIntent);	
-	
-	    			    	}
+	    		    		if (snoozeTime <= currentTime) {
+	    		    			Resources res = context.getResources();
+		    			    	if (ruleType.equals(res.getString(R.string.rule_setting_type_alarm))) {
+		    			        	// play alarm
+		    				    	Log.d(logTag, "match Ok - alarm");
+		    				    	
+		    				    	Intent serviceIntent = new Intent(NoticeAnyTimeService.SERVICE_NAME);  
+		    				    	serviceIntent.putExtra("StartAlarm", true);
+		    				    	context.startService(serviceIntent);			    	    				    	
+		    			    	} else if (ruleType.equals(res.getString(R.string.rule_setting_type_call))) { 
+		    			    		// call
+		    				    	Log.d(logTag, "match Ok - call");
+		    				    	if ("".equals(action)) {
+		    				    		action = originatingAddress; 				    		
+		    				    	}
+		    				    	Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ action));   
+						    		callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		    				    	context.startActivity(callIntent);	
+		
+		    			    	}	
+	    		    		} else {
+	    		        		Log.d("SNOOZE", "SNOOZE was setted !!! alarm skip !!");
+	    		        	}
 	    			    	
 				    		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 				            Notification notification = new Notification();   
@@ -118,8 +133,8 @@ public class SmsReceiver extends BroadcastReceiver {
 				            PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intentForNotify, PendingIntent.FLAG_UPDATE_CURRENT);
 				            notification.setLatestEventInfo(context, "Notice AnyTime", spUtilByID.getMessageById(), contentIntent);
 				            
-				            notificationManager.cancel("NAT", 1);
-				            notificationManager.notify("NAT", 1, notification);
+				            notificationManager.cancel("NAT", NOTICE_TYPE.ALARM.getTypeNum());
+				            notificationManager.notify("NAT", NOTICE_TYPE.ALARM.getTypeNum(), notification);
 	    			    	
 	    			    	break;
 	    		    	}

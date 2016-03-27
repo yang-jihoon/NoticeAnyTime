@@ -42,8 +42,8 @@ public class RuleSettingActivity extends PreferenceActivity {
         enable.setOnPreferenceClickListener(new PreferenceClickListener(id));
                 
         ListPreference ruleType = (ListPreference) findPreference("RULE_TYPE");
-        if (ruleType.getEntry() != null) {
-        	ruleType.setSummary(ruleType.getEntry());
+        if (ruleType.getValue() != null) {
+        	ruleType.setSummary(ruleType.getValue());
         }
         ruleType.setOnPreferenceChangeListener(new PreferenceChangeListener());
         
@@ -63,11 +63,24 @@ public class RuleSettingActivity extends PreferenceActivity {
             	ruleAction.setEnabled(false);
         	} else if (ruleType.getValue().equals(res.getString(R.string.rule_setting_type_call))) { 
         		ruleAction.setEnabled(true);
-        	}	
-        } else {
-        	ruleAction.setEnabled(false);
+        	}
+
+            setRuleActionSummary(ruleType.getValue(),ruleAction, ruleAction.getText());
         }
     }
+	
+	public void setRuleActionSummary(String ruleType, EditTextPreference actionPreference, String ruleAction) {
+		Resources res = getResources();
+	    if (ruleType != null && ruleType.equals(res.getString(R.string.rule_setting_type_call))) { 
+			if (ruleAction != null && !"".equals(ruleAction)) {
+				actionPreference.setSummary(ruleAction);
+	        } else {
+	        	actionPreference.setSummary(res.getString(R.string.rule_setting_action_desc_summary));
+	        }
+		} else if (ruleType == null || ruleType.equals(res.getString(R.string.rule_setting_type_alarm))) {
+	    	actionPreference.setSummary("");
+		} 
+	}
 	
 	@Override
 	public void onDestroy() {
@@ -103,18 +116,23 @@ public class RuleSettingActivity extends PreferenceActivity {
     public class PreferenceChangeListener implements OnPreferenceChangeListener {
     	
 		public boolean onPreferenceChange(Preference preference, Object newValue) {
+	        Resources res = getResources();
 			if ("RULE_TYPE".equals(preference.getKey())) {
 				String ruleType = (String) newValue;
-				preference.setSummary((CharSequence) ruleType);	
 
 		        EditTextPreference ruleAction = (EditTextPreference) findPreference("RULE_ACTION");
 		        		        
-		        Resources res = getResources();
 		        if (ruleType.equals(res.getString(R.string.rule_setting_type_alarm))) {
 					ruleAction.setEnabled(false);
 				} else if (ruleType.equals(res.getString(R.string.rule_setting_type_call))) {
 					ruleAction.setEnabled(true);
 				}
+				preference.setSummary((CharSequence) ruleType);	
+		        setRuleActionSummary(ruleType,ruleAction,ruleAction.getText());
+			} else if ("RULE_ACTION".equals(preference.getKey())) {
+		        ListPreference ruleType = (ListPreference) findPreference("RULE_TYPE");
+		        setRuleActionSummary(ruleType.getValue(),(EditTextPreference) preference,(String) newValue);
+		        
 			} else {
 				preference.setSummary((CharSequence) newValue);				
 			}

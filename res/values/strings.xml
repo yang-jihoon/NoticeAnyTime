@@ -4,6 +4,12 @@
     
     <string name="btn_addrule">등록</string>
     <string name="btn_stop">알람 중지</string>
+    <string name="btn_snooze">일시중지 : </string>
+    <string name="btn_snooze1">1시간</string>
+    <string name="btn_snooze2">2시간</string>
+    <string name="btn_snooze3">3시간</string>
+    
+    <string name="snooze_setting_toast_text">동안 알람이 일시중지됩니다.</string>
     
     <string name="setting_title">Notice AnyTime Setting</string>
     <string name="setting_notice_enable">Enable All</string>
@@ -25,7 +31,9 @@
     <string name="rule_setting_filter">SMS Matching Text</string>
     <string name="rule_setting_filter_desc">설정된 단어가 문자메세지 중에 포함되어 있으면 동작</string>
     <string name="rule_setting_action">Call Action (Phone Number)</string>
-    <string name="rule_setting_action_desc">전화번호설정 - 설정된 번호가 없을경우엔 문자를 보낸사람에게 전화를 겁니다. </string>
+    <string name="rule_setting_action_desc">전화번호설정</string>
+    <string name="rule_setting_action_desc_long">전화번호설정 - 설정된 번호가 없을경우 문자를 보낸사람에게 전화 </string>
+    <string name="rule_setting_action_desc_summary">문자를 보낸사람에게 전화</string>
     
     <string name="rule_list_toast_text">등록된 단어가 없습니다.</string>
     <string name="rule_list_message_pre">동작방법</string>

@@ -33,12 +33,11 @@
 		
 		<EditTextPreference
 			android:key="RULE_ACTION"
-			android:visibility="gone"
 			android:title="@string/rule_setting_action"
 			android:summary="@string/rule_setting_action_desc"
-			android:dialogTitle="@string/rule_setting_action_desc"
-			android:inputType="number"
+			android:dialogTitle="@string/rule_setting_action_desc_long"
 			android:dependency="RULE_ENABLED"
+			android:inputType="number"
 		/>
 			
 	</PreferenceCategory>

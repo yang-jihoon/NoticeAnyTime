@@ -22,9 +22,13 @@ public final class R {
         public static final int list_enable=0x7f070000;
         public static final int list_message=0x7f070002;
         public static final int list_title=0x7f070001;
-        public static final int title_addrule=0x7f070006;
-        public static final int title_appname=0x7f070005;
-        public static final int title_stop=0x7f070004;
+        public static final int title_addrule=0x7f07000a;
+        public static final int title_appname=0x7f070009;
+        public static final int title_snooze=0x7f070005;
+        public static final int title_snooze1=0x7f070004;
+        public static final int title_snooze2=0x7f070007;
+        public static final int title_snooze3=0x7f070008;
+        public static final int title_stop=0x7f070006;
     }
     public static final class layout {
         public static final int listdetail=0x7f030000;
@@ -32,34 +36,40 @@ public final class R {
         public static final int preferences=0x7f030002;
         public static final int rulepreferences=0x7f030003;
         public static final int title=0x7f030004;
-        public static final int titlestyle=0x7f030005;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
         public static final int btn_addrule=0x7f050001;
+        public static final int btn_snooze=0x7f050003;
+        public static final int btn_snooze1=0x7f050004;
+        public static final int btn_snooze2=0x7f050005;
+        public static final int btn_snooze3=0x7f050006;
         public static final int btn_stop=0x7f050002;
-        public static final int rule_list_message_pre=0x7f050018;
-        public static final int rule_list_toast_text=0x7f050017;
-        public static final int rule_setting_action=0x7f050015;
-        public static final int rule_setting_action_desc=0x7f050016;
-        public static final int rule_setting_enable=0x7f05000b;
-        public static final int rule_setting_enable_desc=0x7f05000c;
-        public static final int rule_setting_filter=0x7f050013;
-        public static final int rule_setting_filter_desc=0x7f050014;
-        public static final int rule_setting_title=0x7f05000a;
-        public static final int rule_setting_type=0x7f05000d;
-        public static final int rule_setting_type_alarm=0x7f050010;
-        public static final int rule_setting_type_alarm_desc=0x7f05000f;
-        public static final int rule_setting_type_call=0x7f050012;
-        public static final int rule_setting_type_call_desc=0x7f050011;
-        public static final int rule_setting_type_desc=0x7f05000e;
-        public static final int setting_notice_enable=0x7f050004;
-        public static final int setting_notice_enable_desc=0x7f050005;
-        public static final int setting_ringtone=0x7f050008;
-        public static final int setting_ringtone_desc=0x7f050009;
-        public static final int setting_title=0x7f050003;
-        public static final int setting_toast_enable=0x7f050006;
-        public static final int setting_toast_enable_desc=0x7f050007;
+        public static final int rule_list_message_pre=0x7f05001f;
+        public static final int rule_list_toast_text=0x7f05001e;
+        public static final int rule_setting_action=0x7f05001a;
+        public static final int rule_setting_action_desc=0x7f05001b;
+        public static final int rule_setting_action_desc_long=0x7f05001c;
+        public static final int rule_setting_action_desc_summary=0x7f05001d;
+        public static final int rule_setting_enable=0x7f050010;
+        public static final int rule_setting_enable_desc=0x7f050011;
+        public static final int rule_setting_filter=0x7f050018;
+        public static final int rule_setting_filter_desc=0x7f050019;
+        public static final int rule_setting_title=0x7f05000f;
+        public static final int rule_setting_type=0x7f050012;
+        public static final int rule_setting_type_alarm=0x7f050015;
+        public static final int rule_setting_type_alarm_desc=0x7f050014;
+        public static final int rule_setting_type_call=0x7f050017;
+        public static final int rule_setting_type_call_desc=0x7f050016;
+        public static final int rule_setting_type_desc=0x7f050013;
+        public static final int setting_notice_enable=0x7f050009;
+        public static final int setting_notice_enable_desc=0x7f05000a;
+        public static final int setting_ringtone=0x7f05000d;
+        public static final int setting_ringtone_desc=0x7f05000e;
+        public static final int setting_title=0x7f050008;
+        public static final int setting_toast_enable=0x7f05000b;
+        public static final int setting_toast_enable_desc=0x7f05000c;
+        public static final int snooze_setting_toast_text=0x7f050007;
     }
     public static final class style {
         /** 

@@ -1,11 +1,17 @@
 package com.psalm0105.noticeAnyTime;
 
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -27,8 +33,7 @@ public class NoticeAnyTimeService extends Service {
     
     private BroadcastReceiver smsReceiver;
     IBinder mBinder = new LocalBinder();
-
-    
+        
     public static Intent getIntent() {
         return new Intent(SERVICE_NAME);
     }
@@ -41,6 +46,34 @@ public class NoticeAnyTimeService extends Service {
     	filter.addAction("android.provider.Telephony.SMS_RECEIVED");
     	registerReceiver(smsReceiver, filter);  
     	audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+    	
+    	Timer snoozeCancelTimer = new Timer();
+		snoozeCancelTimer.scheduleAtFixedRate(new TimerTask() {
+
+			@Override
+			public void run() {
+				Log.d("SNOOZE", "Run snooze cacel timer");
+	    	
+				SharedPreferences snoozePref = getSharedPreferences("SNOOZE_TIME", Context.MODE_PRIVATE);
+			    int snoozeType = snoozePref.getInt("TYPE", 0);
+			    long snoozeTime = snoozePref.getLong("TIME", 0);
+			    
+				Date currentTime = new Date();
+				if (snoozeType > 0 && snoozeTime <= currentTime.getTime()) {
+					Log.d("SNOOZE", "Snooze notification cacel !!");
+					
+			        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			        notificationManager.cancel("NAT", NOTICE_TYPE.SNOOZE.getTypeNum());
+			        
+			    	SharedPreferences prefs = getSharedPreferences("SNOOZE_TIME", Context.MODE_PRIVATE); 
+			    	Editor ed = prefs.edit();
+			    	ed.putInt("TYPE", 0);
+			    	ed.commit();
+				}
+				
+			}
+			
+		}, 0, 1000*60);
     }    
     
     @Override
@@ -85,7 +118,7 @@ public class NoticeAnyTimeService extends Service {
 				public void onCompletion(MediaPlayer player) {
 					playCount += 1;
 					Log.d(logTag, "PlayCount : " + playCount);
-					if (playCount <= 3) {
+					if (playCount <= 2) {
 						player.start();
 					}
 				}
