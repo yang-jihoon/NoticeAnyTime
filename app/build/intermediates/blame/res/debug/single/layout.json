@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "/Users/psalm0105/Programming/androidStudioWorkspace/NoticeAnyTime/app/build/intermediates/res/merged/debug/layout/title.xml",
+        "source": "/Users/psalm0105/Programming/androidStudioWorkspace/NoticeAnyTime/app/src/main/res/layout/title.xml"
+    },
+    {
+        "merged": "/Users/psalm0105/Programming/androidStudioWorkspace/NoticeAnyTime/app/build/intermediates/res/merged/debug/layout/preferences.xml",
+        "source": "/Users/psalm0105/Programming/androidStudioWorkspace/NoticeAnyTime/app/src/main/res/layout/preferences.xml"
+    },
+    {
+        "merged": "/Users/psalm0105/Programming/androidStudioWorkspace/NoticeAnyTime/app/build/intermediates/res/merged/debug/layout/main.xml",
+        "source": "/Users/psalm0105/Programming/androidStudioWorkspace/NoticeAnyTime/app/src/main/res/layout/main.xml"
+    },
+    {
+        "merged": "/Users/psalm0105/Programming/androidStudioWorkspace/NoticeAnyTime/app/build/intermediates/res/merged/debug/layout/rulepreferences.xml",
+        "source": "/Users/psalm0105/Programming/androidStudioWorkspace/NoticeAnyTime/app/src/main/res/layout/rulepreferences.xml"
+    },
+    {
+        "merged": "/Users/psalm0105/Programming/androidStudioWorkspace/NoticeAnyTime/app/build/intermediates/res/merged/debug/layout/listdetail.xml",
+        "source": "/Users/psalm0105/Programming/androidStudioWorkspace/NoticeAnyTime/app/src/main/res/layout/listdetail.xml"
+    }
+]

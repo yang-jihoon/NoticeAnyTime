@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ruleType">
+        <item>@string/rule_setting_type_alarm</item>
+        <item>@string/rule_setting_type_call</item>
+    </string-array>
+    <string-array name="ruleTypeDesc">
+        <item>@string/rule_setting_type_alarm_desc</item>
+        <item>@string/rule_setting_type_call_desc</item>
+    </string-array>
+</resources>
